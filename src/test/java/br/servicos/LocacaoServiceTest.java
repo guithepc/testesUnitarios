@@ -14,7 +14,9 @@ import java.util.Date;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ErrorCollector;
 
 import br.ce.wcaquino.utils.DataUtils;
 import br.entidades.Filme;
@@ -22,6 +24,9 @@ import br.entidades.Locacao;
 import br.entidades.Usuario;
 
 public class LocacaoServiceTest {
+	
+	@Rule
+	public ErrorCollector error = new ErrorCollector();
 	
 	@Test
 	public void testeJUnit() {
@@ -39,9 +44,12 @@ public class LocacaoServiceTest {
 		//verificação
 		
 		//usando imports estáticos (Ctrl + Shift + M)
-		assertThat(locacao.getValor(), is(equalTo(5.0)));
-		assertThat(locacao.getValor(), is(not(6.0))); 
-		assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+		//utilizando @Rule
+		error.checkThat(locacao.getValor(), is(equalTo(5.0)));
+		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+		
+		//IMPORT não estático / estático
+		Assert.assertThat(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)), is(true));
 		assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 	}
 }
