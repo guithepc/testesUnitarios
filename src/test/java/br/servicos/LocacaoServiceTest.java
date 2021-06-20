@@ -8,8 +8,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.Date;
+import java.util.Iterator;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -24,17 +29,43 @@ import br.exceptions.LocadoraException;
 
 public class LocacaoServiceTest {
 	
+	private LocacaoService service;
+	
+	private static int contador = 0;
+	
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
 	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
+	@Before
+	public void setup() {
+		service = new LocacaoService();
+		contador++;
+		System.out.println(contador);
+	}
+	
+	@After
+	public void tearDown() {
+		System.out.println("After");
+	}
+	
+	@BeforeClass
+	public static void setupClass() {
+		System.out.println("BeforeClass"); //antes de toda classe
+	}
+	
+	@AfterClass
+	public static void tearDownClass() {
+		System.out.println("AfterClass");
+	}
+	
 	@Test
 	public void testeJUnit() throws Exception {
 		//cenário
 		
-		LocacaoService service = new LocacaoService();
+
 		Usuario usuario = new Usuario("Nigui");
 		Filme filme = new Filme("Indiana Jones", 1, 5.0);
 		
@@ -57,7 +88,7 @@ public class LocacaoServiceTest {
 	
 	@Test(expected = FilmeSemEsqtoqueException.class)
 	public void testLocacao_filmeSemEstoque() throws Exception {
-		LocacaoService service = new LocacaoService();
+		
 		Usuario usuario = new Usuario("");
 		Filme filme = new Filme("Indiana Jones", 0, 5.0);
 		 
@@ -67,7 +98,7 @@ public class LocacaoServiceTest {
 	
 	@Test
 	public void testLocacao_filmeSemEstoque2() {
-		LocacaoService service = new LocacaoService();
+		
 		Usuario usuario = new Usuario("Nigui");
 		Filme filme = new Filme("Indiana Jones", 1, 5.0);
 		
@@ -82,7 +113,7 @@ public class LocacaoServiceTest {
 	
 	@Test
 	public void testLocacao_filmeSemEstoque3() throws FilmeSemEsqtoqueException, LocadoraException {
-		LocacaoService service = new LocacaoService();
+		
 		Usuario usuario = new Usuario("Nigui");
 		Filme filme = new Filme("Indiana Jones", 0, 5.0);
 		
@@ -97,8 +128,8 @@ public class LocacaoServiceTest {
 	
 	@Test
 	public void testeLocacao_usuarioVazio() throws FilmeSemEsqtoqueException {
-		LocacaoService service = new LocacaoService();
-		;
+		
+		
 		Filme filme = new Filme("Indiana Jones", 1, 5.0);
 		
 			
@@ -113,7 +144,7 @@ public class LocacaoServiceTest {
 	
 	@Test
 	public void testLocacao_filmeVazio() throws FilmeSemEsqtoqueException, LocadoraException {
-		LocacaoService service = new LocacaoService();
+		
 		Usuario usuario = new Usuario("User");
 		
 		exception.expect(LocadoraException.class);
