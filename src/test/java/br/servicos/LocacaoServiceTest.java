@@ -30,8 +30,7 @@ import br.exceptions.LocadoraException;
 public class LocacaoServiceTest {
 	
 	private LocacaoService service;
-	
-	private static int contador = 0;
+
 	
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
@@ -41,14 +40,12 @@ public class LocacaoServiceTest {
 	
 	@Before
 	public void setup() {
-		service = new LocacaoService();
-		contador++;
-		System.out.println(contador);
+		service = new LocacaoService(); //antes de cada teste
 	}
 	
 	@After
 	public void tearDown() {
-		System.out.println("After");
+		System.out.println("After"); //depois de cada teste
 	}
 	
 	@BeforeClass
